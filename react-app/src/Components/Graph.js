@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 //import Plot from 'react-plotly.js';
+import {SearchBar} from './SearchBar';
 import createPlotlyComponent from 'react-plotly.js/factory';
 import Plotly from 'plotly.js-gl3d-dist';
 const Plot = createPlotlyComponent(Plotly);
@@ -163,10 +164,17 @@ export class Graph extends Component{
                 data.push(trace);
             }
             return (
-                <Plot
-                    data={data}
-                    layout = { {width:640, height:640, title: 'A basic plot'}}
-                />
+                <div>
+                    <div style={{float:"left"}}>
+                        <Plot
+                            data={data}
+                            layout = { {width:600, height:640, title: 'A basic plot'}}
+                        />
+                    </div>
+                    <div style = {{float:"left"}}>
+                        <SearchBar/>
+                    </div>
+                </div>
             );
         } else {
             return null;
