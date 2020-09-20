@@ -38,12 +38,14 @@ export class Graph extends Component{
                 }
             }
             this.setState({selected:newSelected});
-        } else {
+        } else if(countryCode in this.state.data){
             let newSelected = [countryCode];
             for(var currentCode in this.state.selected){
                 newSelected.push(this.state.selected[currentCode]);
             }
             this.setState({selected:newSelected});
+        } else {
+            alert('No data found for that country.');
         }
     }
 

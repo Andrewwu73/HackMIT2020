@@ -6,7 +6,7 @@ import GlobalStyles from './components/GlobalStyles';
 import 'src/mixins/chartjs';
 import theme from 'src/theme';
 import routes from 'src/routes';
-
+import 'semantic-ui-css/semantic.min.css'
 const App = () => {
   const routing = useRoutes(routes);
 
