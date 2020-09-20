@@ -34,7 +34,12 @@ const items = [
   {
     href: '/app/dashboard',
     icon: BarChartIcon,
-    title: 'GDP Correlations'
+    title: 'GDP Predictions'
+  },
+  {
+    href: '/app/ML',
+    icon: BarChartIcon,
+    title: 'Correlative GDP Predictions'
   },
   {
     href: '/app/about',

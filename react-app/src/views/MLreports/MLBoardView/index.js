@@ -5,11 +5,7 @@ import {
   makeStyles
 } from '@material-ui/core';
 import Page from '../../../components/Page';
-import Budget from './RawGrowth';
 
-import TasksProgress from './RawLoss';
-import TotalCustomers from './PercentGrowth';
-import TotalProfit from './PercentLoss';
 import {Graph} from './Graph';
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,42 +29,7 @@ const Dashboard = () => {
           container
           spacing={3}
         >
-          <Grid
-            item
-            lg={3}
-            sm={6}
-            xl={3}
-            xs={12}
-          >
-            <Budget />
-          </Grid>
-          <Grid
-            item
-            lg={3}
-            sm={6}
-            xl={3}
-            xs={12}
-          >
-            <TotalCustomers />
-          </Grid>
-          <Grid
-            item
-            lg={3}
-            sm={6}
-            xl={3}
-            xs={12}
-          >
-            <TasksProgress />
-          </Grid>
-          <Grid
-            item
-            lg={3}
-            sm={6}
-            xl={3}
-            xs={12}
-          >
-            <TotalProfit />
-          </Grid>
+          
           <Grid
             item
             lg={12}

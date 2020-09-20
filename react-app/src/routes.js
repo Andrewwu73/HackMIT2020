@@ -9,6 +9,7 @@ import NotFoundView from 'src/views/errors/NotFoundView';
 import RegisterView from 'src/views/auth/RegisterView';
 import SettingsView from 'src/views/settings/SettingsView';
 import AboutView from 'src/views/about/AboutView';
+import MLBoardView from 'src/views/MLreports/MLBoardView';
 const routes = [
   {
     path: 'app',
@@ -17,9 +18,10 @@ const routes = [
       { path: 'account', element: <AccountView /> },
       { path: 'about', element: <AboutView /> },
       { path: 'dashboard', element: <DashboardView /> },
-
+      { path: 'ML', element:<MLBoardView/>},
       { path: 'settings', element: <SettingsView /> },
-      { path: '*', element: <Navigate to="/404" /> }
+      { path: '*', element: <Navigate to="/404" /> },
+
     ]
   },
   {
