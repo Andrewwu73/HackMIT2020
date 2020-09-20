@@ -94,6 +94,25 @@ app.get('/get-initial-sample-data', async (req, res)=>{
 
 })
 
+app.post('/get-ML-correlations', (req, res)=>{
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    var targetInt = Number(req.body.index)-1;
+    console.log(targetInt);
+    var csvFileNames = ['GDP-education index.csv', 'GDP-youth mortality rate.csv', 'GDP-education index-youth mortality rate.csv', 'GDP-hours worked.csv', 'GDP-hours worked-education index.csv', 'GDP-hours worked-youth mortality rate.csv', 'GDP-hours worked-education index-youth mortality rate.csv', 'GDP-population.csv', 'GDP-population-education index.csv', 'GDP-population-youth mortality rate.csv', 'GDP-population-education index-youth mortality rate.csv', 'GDP-population-hours worked.csv', 'GDP-population-hours worked-education index.csv', 'GDP-population-hours worked-youth mortality rate.csv', 'GDP-population-hours worked-education index-youth mortality rate.csv'];
+    var csvData =[];
+    console.log(csvFileNames[targetInt]);
+    fs.createReadStream(csvFileNames[Number(targetInt)])
+        .pipe(parse({delimiter:':'}))
+        .on('data', function(csvrow){
+            csvData.push(csvrow[0].split(','));
+        })
+        .on('end', function(){
+            res.send({data:csvData});
+        })
+
+})
+
 
 app.post('/aws-gdp-forecasts', (req, res)=>{
     res.header('Access-Control-Allow-Origin', '*');
