@@ -21,9 +21,11 @@ def parse_data(files, varnames):
             reader = csv.reader(fin, delimiter=",")
             for line in reader:
                 vardata.append(line)
+        vardata = vardata[1:]
         for row in vardata:
             country, year, value = row
             year = int(year)
+            value = float(value)
             if country in data:
                 if year in data[country]:
                     data[country][year][var] = value
@@ -36,7 +38,14 @@ def parse_data(files, varnames):
     for country in data:
         points = []
         for year in data[country]:
-            points.append([year] + list(data[country][year].values()))
+            if len(list(data[country][year].values())) == len(varnames):
+                points.append([year] + list(data[country][year].values()))
         newdata[country] = points
 
     return ["year"] + varnames, newdata
+
+
+if __name__ == "__main__":
+    files = ["GDP.csv", "population.csv", "hours_worked.csv", "education.csv", "youth-mortality-rate.csv"]
+    varnames = ["GDP", "population", "hours worked", "education index", "youth mortality rate"]
+    print (parse_data(files, varnames))
