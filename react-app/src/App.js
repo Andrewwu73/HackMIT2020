@@ -1,25 +1,21 @@
+import 'react-perfect-scrollbar/dist/css/styles.css';
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import {Main} from './Components/Main';
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
-import {About} from './Components/About';
-function App() {
+import { useRoutes } from 'react-router-dom';
+import { ThemeProvider } from '@material-ui/core';
+import GlobalStyles from './components/GlobalStyles';
+import 'src/mixins/chartjs';
+import theme from 'src/theme';
+import routes from 'src/routes';
+
+const App = () => {
+  const routing = useRoutes(routes);
+
   return (
-    <Router>
-        <Switch> {/* renders first route that matches url */}
-          <Route exact path="/" render={(props) => (
-            <div>
-              <br /><br />
-              <Main> </Main>
-            </div>
-          )} />
-
-          <Route exact path="/about" component={About}/>
-
-        </Switch>
-      </Router>
+    <ThemeProvider theme={theme}>
+      <GlobalStyles />
+      {routing}
+    </ThemeProvider>
   );
-}
+};
 
 export default App;

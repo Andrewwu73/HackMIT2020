@@ -4,7 +4,7 @@ import {SearchBar} from './SearchBar';
 import createPlotlyComponent from 'react-plotly.js/factory';
 import Plotly from 'plotly.js-gl3d-dist';
 const Plot = createPlotlyComponent(Plotly);
-let figure= require('../templates/3dribbon.json');
+///let figure= require('../templates/3dribbon.json');
 
 
 export class Graph extends Component{
@@ -73,7 +73,7 @@ export class Graph extends Component{
     }
 
     render(){
-        //console.log(this.state.data);
+        console.log(this.state.data);
         if(this.state.data){
             var data = []
             if(this.state.dimension==3){
