@@ -3,6 +3,10 @@ import torch.nn as nn
 from torch.autograd import Variable
 import torch.nn.functional as F
 from API import preprocessing
+import matplotlib.pyplot as plt
+import numpy as np
+from itertools import chain, combinations
+import csv
 
 class Propagator(nn.Module):
     """
@@ -35,15 +39,11 @@ class Regression(nn.Module):
         self.prop = Propagator(n_feature, n_hidden, n_output)
 
     def forward(self, x, T):
+        """T is number of years"""
         country_data = x
-        T = int(years[-1] - years[0] + 1)
-        current_year = years[0]
-        for j in range(T-1):
+        for j in range(T):
             x = self.prop(x)
-            current_year += 1
-            if current_year in years:
-                country_data = torch.cat((country_data, x), 1)
-        return country_data
+        return x
 
 
 def country_loss(pred_evo, act_evo):
@@ -52,35 +52,83 @@ def country_loss(pred_evo, act_evo):
     the loss for that country.
     """
     loss = 0
-    loss += torch.mean((pred_evo[0,:] - act_evo[0,:])**2)
+    loss += ((pred_evo[0, 0] - act_evo[0])/act_evo[0])**2
     return loss
 
-files = ["GDP.csv", "population.csv", "hours_worked.csv", "education.csv", "youth-mortality-rate.csv"]
-varnames = ["GDP", "population", "hours worked", "education index", "youth mortality rate"]
-loaded_data = preprocessing.parse_data(files, varnames)
 
-d = len(loaded_data[0]) - 1
-data = loaded_data[1]
-model = Regression(d, d)
-optimizer = torch.optim.SGD(model.parameters(), lr=0.0000000000001)
+def powerset(iterable):
+    s = list(iterable)
+    return chain.from_iterable(combinations(s, r) for r in range(1, len(s)+1))
 
-N = 500
-for i in range(N):
-    overall_loss = 0
-    for country in data.keys():
-        if len(data[country]) > 0:
-            country_data = data[country]
-            act_evo = torch.tensor(country_data)[:,1:]
-            years = torch.tensor(country_data)[:,0].tolist()
-            act_evo = torch.transpose(act_evo, 0, 1)
-            x = act_evo[:,0:1]
-            x = Variable(x.float(), requires_grad=True)
-            pred_evo = model(x, years)
-            overall_loss += country_loss(pred_evo, act_evo)
-    print(overall_loss)
+all_combs = powerset([1,2,3,4])
+all_files = ["GDP.csv", "population.csv", "hours_worked.csv", "education.csv", "youth-mortality-rate.csv"]
+all_varnames = ["GDP", "population", "hours worked", "education index", "youth mortality rate"]
 
-    optimizer.zero_grad()
-    overall_loss.backward()
-    optimizer.step()
-final_pred = model(x,T)
-print(final_pred)
+for comb in all_combs:
+    files = ["GDP.csv"] + [all_files[i] for i in comb]
+    varnames = ["GDP"] + [all_varnames[i] for i in comb]
+    loaded_data = preprocessing.parse_data(files, varnames)
+
+    d = len(loaded_data[0]) - 1
+    data = loaded_data[1]
+    model = Regression(d, d)
+    optimizer = torch.optim.SGD(model.parameters(), lr=0.0001)
+    #train
+    N = 100
+    for i in range(N):
+        overall_loss = 0
+        for country in data.keys():
+            if len(data[country]) > 0:
+                country_data = data[country]
+                act_evo = torch.tensor(country_data)[:,1:]
+                act_evo = torch.transpose(act_evo, 0, 1)
+                for i in range(act_evo.shape[0] - 1):
+                    time = country_data[i+1][0] - country_data[i][0]
+                    x = act_evo[:, i: i+1]
+                    x = Variable(x.float(), requires_grad=True)
+                    pred_evo = model(x, time)
+                    # print ("pred_evo: " + str(pred_evo))
+                    # print ("act_evo: " + str(act_evo[:, i+1]))
+                    # print (pred_evo.shape)
+                    overall_loss += country_loss(pred_evo, act_evo[:, i+1])
+        print("overall loss: " + str(overall_loss))
+        # print (type(overall_loss))
+        optimizer.zero_grad()
+        overall_loss.backward()
+        optimizer.step()
+
+    write_data = []
+    for country in data:
+        if not data[country]:
+            continue
+        year = data[country][-1][0]
+        act_evo = torch.tensor(data[country])[:, 1:]
+        act_evo = torch.transpose(act_evo, 0, 1)
+        start = act_evo[:, -1:]
+        for i in range(15):
+            start = model(start, 1)
+            write_data.append([country, year + i + 1, start[0, 0].item()])
+    fname = "-".join(varnames) + ".csv"
+    with open(fname, "w", newline="") as fout:
+        writer = csv.writer(fout)
+        for row in write_data:
+            writer.writerow(row)
+
+# gdp_act, gdp_pred = [], []
+# for country in data:
+#     country_data = data[country]
+#     if not country_data:
+#         continue
+#     act_evo = np.array(country_data)[:, 1:]
+#     act_evo = np.transpose(act_evo)
+#     for i in range(act_evo.shape[0] - 1):
+#         time = country_data[i + 1][0] - country_data[i][0]
+#         x = torch.tensor(act_evo[:, i: i + 1])
+#         x = Variable(x.float(), requires_grad=True)
+#         pred_evo = model(x, time)
+#         gdp_act.append(country_data[i][1])
+#         gdp_pred.append(pred_evo[0, 0].item())
+
+# plt.scatter(gdp_act, gdp_pred, size=5)
+# plt.show()
+
