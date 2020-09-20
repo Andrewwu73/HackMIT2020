@@ -11,28 +11,28 @@ import {
   colors,
   makeStyles
 } from '@material-ui/core';
-import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
-import PeopleIcon from '@material-ui/icons/PeopleOutlined';
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+import InsertChartIcon from '@material-ui/icons/InsertChartOutlined';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '100%'
   },
   avatar: {
-    backgroundColor: colors.green[600],
+    backgroundColor: colors.orange[600],
     height: 56,
     width: 56
   },
   differenceIcon: {
-    color: colors.green[900]
+    color: colors.red[900]
   },
   differenceValue: {
-    color: colors.green[900],
+    color: colors.red[900],
     marginRight: theme.spacing(1)
   }
 }));
 
-const TotalCustomers = ({ className, ...rest }) => {
+const TasksProgress = ({ className, ...rest }) => {
   const classes = useStyles();
 
   return (
@@ -52,18 +52,18 @@ const TotalCustomers = ({ className, ...rest }) => {
               gutterBottom
               variant="h6"
             >
-              TOTAL CUSTOMERS
+              LARGEST PREDICTED LOSS
             </Typography>
             <Typography
               color="textPrimary"
               variant="h3"
             >
-              1,600
+              YEMEN
             </Typography>
           </Grid>
           <Grid item>
             <Avatar className={classes.avatar}>
-              <PeopleIcon />
+              <InsertChartIcon />
             </Avatar>
           </Grid>
         </Grid>
@@ -72,18 +72,18 @@ const TotalCustomers = ({ className, ...rest }) => {
           display="flex"
           alignItems="center"
         >
-          <ArrowUpwardIcon className={classes.differenceIcon} />
+          <ArrowDownwardIcon className={classes.differenceIcon} />
           <Typography
             className={classes.differenceValue}
             variant="body2"
           >
-            16%
+            75.97 Billion
           </Typography>
           <Typography
             color="textSecondary"
             variant="caption"
           >
-            Since last month
+            By 2027
           </Typography>
         </Box>
       </CardContent>
@@ -91,8 +91,8 @@ const TotalCustomers = ({ className, ...rest }) => {
   );
 };
 
-TotalCustomers.propTypes = {
+TasksProgress.propTypes = {
   className: PropTypes.string
 };
 
-export default TotalCustomers;
+export default TasksProgress;

@@ -41,31 +41,31 @@ const items = [
     icon: UsersIcon,
     title: 'About'
   },
+  {
+    href: '/login',
+    icon: LockIcon,
+    title: 'Login'
+  },
   // {
   //   href: '/app/products',
   //   icon: ShoppingBagIcon,
   //   title: 'Products'
   // },
-  // {
-  //   href: '/app/account',
-  //   icon: UserIcon,
-  //   title: 'Account'
-  // },
-  // {
-  //   href: '/app/settings',
-  //   icon: SettingsIcon,
-  //   title: 'Settings'
-  // },
-  // {
-  //   href: '/login',
-  //   icon: LockIcon,
-  //   title: 'Login'
-  // },
-  // {
-  //   href: '/register',
-  //   icon: UserPlusIcon,
-  //   title: 'Register'
-  // },
+  {
+    href: '/app/account',
+    icon: UserIcon,
+    title: 'Account'
+  },
+  {
+    href: '/app/settings',
+    icon: SettingsIcon,
+    title: 'Settings'
+  },
+  {
+    href: '/register',
+    icon: UserPlusIcon,
+    title: 'Register'
+  },
   // {
   //   href: '/404',
   //   icon: AlertCircleIcon,
@@ -151,13 +151,6 @@ const NavBar = ({ onMobileClose, openMobile }) => {
         m={2}
         bgcolor="background.dark"
       >
-        <Typography
-          align="center"
-          gutterBottom
-          variant="h4"
-        >
-          Need more?
-        </Typography>
 
         <Box
           display="flex"

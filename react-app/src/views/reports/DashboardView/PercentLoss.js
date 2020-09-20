@@ -8,8 +8,10 @@ import {
   Grid,
   Typography,
   makeStyles,
-  colors
+  colors,
+  Box
 } from '@material-ui/core';
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 
 const useStyles = makeStyles(() => ({
@@ -17,9 +19,15 @@ const useStyles = makeStyles(() => ({
     height: '100%'
   },
   avatar: {
-    backgroundColor: colors.indigo[600],
+    backgroundColor: colors.red[600],
     height: 56,
     width: 56
+  },
+  differenceIcon: {
+    color: colors.red[900]
+  },
+  differenceValue: {
+    color: colors.red[900],
   }
 }));
 
@@ -43,13 +51,13 @@ const TotalProfit = ({ className, ...rest }) => {
               gutterBottom
               variant="h6"
             >
-              TOTAL PROFIT
+              LARGEST PERCENTILE LOSS
             </Typography>
             <Typography
               color="textPrimary"
               variant="h3"
             >
-              $23,200
+              Sint Maartin
             </Typography>
           </Grid>
           <Grid item>
@@ -58,6 +66,25 @@ const TotalProfit = ({ className, ...rest }) => {
             </Avatar>
           </Grid>
         </Grid>
+        <Box
+          mt={2}
+          display="flex"
+          alignItems="center"
+        >
+          <ArrowDownwardIcon className={classes.differenceIcon} />
+          <Typography
+            className={classes.differenceValue}
+            variant="body2"
+          >
+            91.2%
+          </Typography>
+          <Typography
+            color="textSecondary"
+            variant="caption"
+          >
+            By 2027
+          </Typography>
+        </Box>
       </CardContent>
     </Card>
   );

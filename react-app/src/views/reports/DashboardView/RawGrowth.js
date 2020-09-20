@@ -7,25 +7,32 @@ import {
   Card,
   CardContent,
   Grid,
-  LinearProgress,
   Typography,
-  makeStyles,
-  colors
+  colors,
+  makeStyles
 } from '@material-ui/core';
-import InsertChartIcon from '@material-ui/icons/InsertChartOutlined';
+import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
+import MoneyIcon from '@material-ui/icons/Money';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     height: '100%'
   },
   avatar: {
-    backgroundColor: colors.orange[600],
+    backgroundColor: colors.red[600],
     height: 56,
     width: 56
+  },
+  differenceIcon: {
+    color: colors.green[900]
+  },
+  differenceValue: {
+    color: colors.green[900],
+    marginRight: theme.spacing(1)
   }
 }));
 
-const TasksProgress = ({ className, ...rest }) => {
+const Budget = ({ className, ...rest }) => {
   const classes = useStyles();
 
   return (
@@ -45,34 +52,46 @@ const TasksProgress = ({ className, ...rest }) => {
               gutterBottom
               variant="h6"
             >
-              TASKS PROGRESS
+              LARGEST PREDICTED GROWTH
             </Typography>
             <Typography
               color="textPrimary"
               variant="h3"
             >
-              75.5%
+              China
             </Typography>
           </Grid>
           <Grid item>
             <Avatar className={classes.avatar}>
-              <InsertChartIcon />
+              <MoneyIcon />
             </Avatar>
           </Grid>
         </Grid>
-        <Box mt={3}>
-          <LinearProgress
-            value={75.5}
-            variant="determinate"
-          />
+        <Box
+          mt={2}
+          display="flex"
+          alignItems="center"
+        >
+          <ArrowUpwardIcon className={classes.differenceIcon} />
+          <Typography
+            className={classes.differenceValue}
+            variant="body2"
+          >
+          </Typography>
+          <Typography
+            color="textSecondary"
+            variant="caption"
+          >
+            6.176 Trillion By 2027
+          </Typography>
         </Box>
       </CardContent>
     </Card>
   );
 };
 
-TasksProgress.propTypes = {
+Budget.propTypes = {
   className: PropTypes.string
 };
 
-export default TasksProgress;
+export default Budget;
