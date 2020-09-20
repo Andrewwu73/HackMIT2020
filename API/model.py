@@ -15,13 +15,13 @@ class Propagator(nn.Module):
     """
     def __init__(self, n_feature, n_hidden, n_output):
         super(Propagator, self).__init__()
-        self.hidden1 = nn.Linear(n_feature, n_hidden)
-        self.hidden2 = nn.Linear(n_hidden, n_hidden)
+        self.hidden1 = nn.Linear(n_feature, n_feature)
+        self.hidden2 = nn.Linear(n_feature, n_hidden)
         self.output = nn.Linear(n_hidden, n_output)
 
     def forward(self, x):
         x = torch.transpose(x, 0, 1)
-        x = F.relu(self.hidden1(x))
+        x = self.hidden1(x)
         x = F.relu(self.hidden2(x))
         x = self.output(x)
         x = torch.transpose(x, 0, 1)
@@ -35,7 +35,7 @@ class Regression(nn.Module):
     """
     def __init__(self, n_feature, n_output):
         super(Regression, self).__init__()
-        n_hidden = 64
+        n_hidden = 16
         self.prop = Propagator(n_feature, n_hidden, n_output)
 
     def forward(self, x, T):
@@ -54,8 +54,6 @@ def country_loss(pred_evo, act_evo):
     loss = 0
     loss += ((pred_evo[0, 0] - act_evo[0])/act_evo[0])**2
     return loss
-
-
 
 
 def powerset(iterable):
@@ -133,3 +131,4 @@ for comb in all_combs:
 
 # plt.scatter(gdp_act, gdp_pred, size=5)
 # plt.show()
+
