@@ -9,6 +9,74 @@ app.get('/', (req, res) => {
     res.send('Data VIS API');
 });
 
+app.get('/get-sample-education-data', async (req, res)=>{
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    var csvData = [];
+    fs.createReadStream('education.csv')
+        .pipe(parse({delimiter:':'}))
+        .on('data', function(csvrow){
+            //console.log(csvrow);
+            csvData.push(csvrow[0].split(','));
+        })
+        .on('end', function(){
+            //console.log(csvData);
+            res.send({data:csvData});
+        })
+
+})
+
+app.get('/get-sample-youth-mortality-data', async (req, res)=>{
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    var csvData = [];
+    fs.createReadStream('youth-mortality-rate.csv')
+        .pipe(parse({delimiter:':'}))
+        .on('data', function(csvrow){
+            //console.log(csvrow);
+            csvData.push(csvrow[0].split(','));
+        })
+        .on('end', function(){
+            //console.log(csvData);
+            res.send({data:csvData});
+        })
+})
+
+app.get('/get-sample-hours-worked-data', async (req, res)=>{
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    var csvData = [];
+    fs.createReadStream('hours_worked.csv')
+        .pipe(parse({delimiter:':'}))
+        .on('data', function(csvrow){
+            //console.log(csvrow);
+            csvData.push(csvrow[0].split(','));
+        })
+        .on('end', function(){
+            //console.log(csvData);
+            res.send({data:csvData});
+        })
+
+})
+
+app.get('/get-sample-population-data', async (req, res)=>{
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    var csvData = [];
+    fs.createReadStream('population.csv')
+        .pipe(parse({delimiter:':'}))
+        .on('data', function(csvrow){
+            //console.log(csvrow);
+            csvData.push(csvrow[0].split(','));
+        })
+        .on('end', function(){
+            //console.log(csvData);
+            res.send({data:csvData});
+        })
+
+})
+
+
 app.get('/get-initial-sample-data', async (req, res)=>{
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
@@ -131,5 +199,5 @@ app.use(express.urlencoded({extended: true}));
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}...`);
-  processForecastData();
+  //processForecastData();
 });
