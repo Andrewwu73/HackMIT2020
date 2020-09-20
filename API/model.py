@@ -41,7 +41,7 @@ for i in range(N):
     d = x.size()[0]
     # act_evo = ???
 
-    model = Regression(n, n)
+    model = Regression(d, d)
     optimizer = torch.optim.SGD(net.parameters(), lr=0.2)
 
     pred_evo = Regression(x)
