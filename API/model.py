@@ -29,24 +29,27 @@ class Regression(nn.Module):
         return country_data
 
 
-def loss_func(pred_evo, act_evo):
+def country_loss(pred_evo, act_evo):
     loss = 0
     loss += (pred_evo[0,:] - act_evo[0,:])**2
     return loss
 
+
 N = 500
 for i in range(N):
-    x = torch()
-    T = 1
-    d = x.size()[0]
-    # act_evo = ???
-
+    d = 1
     model = Regression(d, d)
     optimizer = torch.optim.SGD(net.parameters(), lr=0.2)
 
-    pred_evo = Regression(x)
-    loss = loss_func(pred_evo, act_evo)
+    overall_loss = 0
+    for country in data.keys():
+        country_data = data[country]
+        act_evo = torch.tensor(country_data)[:,1:]
+        torch.transpose(act_evo, 0, 1)
+        x = act_evo[:,0:1]
+        pred_evo = Regression(x)
+        overall_loss += country_loss(pred_evo, act_evo)
 
     optimizer.zero_grad()
-    loss.backward()
+    overall_loss.backward()
     optimizer.step()
