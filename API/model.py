@@ -10,12 +10,14 @@ class Propagator(nn.Module):
     """
     def __init__(self, n_feature, n_hidden, n_output):
         super(Propagator, self).__init__()
-        self.hidden = nn.Linear(n_feature, n_hidden)
+        self.hidden1 = nn.Linear(n_feature, n_hidden)
+        self.hidden2 = nn.Linear(n_hidden, n_hidden)
         self.output = nn.Linear(n_hidden, n_output)
 
     def forward(self, x):
-        x = torch.sigmoid(self.hidden(x))
-        x = F.relu(self.output(x))
+        x = F.elu(self.hidden1(x))
+        x = F.relu(self.hidden2(x))
+        x = self.output(x)
         return x
 
 
@@ -26,11 +28,10 @@ class Regression(nn.Module):
     """
     def __init__(self, n_feature, n_output):
         super(Regression, self).__init__()
-        n_hidden = 2
+        n_hidden = 64
         self.prop = Propagator(n_feature, n_hidden, n_output)
 
     def forward(self, x, T):
-        d = x.size()[0]
         country_data = x
         for j in range(T-1):
             x = self.prop(x)
@@ -48,13 +49,13 @@ def country_loss(pred_evo, act_evo):
     return loss
 
 
-data = {'USA': [[2020, 100], [2021, 50]]}
+data = {'USA': [[2020, 100], [2021, 80], [2022, 23]]}
 
 d = 1
 model = Regression(d, d)
-optimizer = torch.optim.SGD(model.parameters(), lr=0.2)
+optimizer = torch.optim.SGD(model.parameters(), lr=0.0001)
 
-N = 10
+N = 500
 for i in range(N):
     overall_loss = 0
     for country in data.keys():
@@ -66,6 +67,7 @@ for i in range(N):
         x = Variable(x.float(), requires_grad=True)
         pred_evo = model(x, T)
         overall_loss += country_loss(pred_evo, act_evo)
+    print(overall_loss)
 
     optimizer.zero_grad()
     overall_loss.backward()
