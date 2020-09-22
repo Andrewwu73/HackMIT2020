@@ -25,6 +25,8 @@ export class Graph extends Component{
         this.handleRadioOnClick = this.handleRadioOnClick.bind(this);
         if (window.location.host.startsWith('localhost')) {
             this.baseURL = 'http://localhost:8080';
+        } else {
+            this.baseURL = 'https://macrovis.ue.r.appspot.com';
         }
     } 
 

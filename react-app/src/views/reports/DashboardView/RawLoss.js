@@ -58,7 +58,7 @@ const TasksProgress = ({ className, ...rest }) => {
               color="textPrimary"
               variant="h3"
             >
-              YEMEN
+              Yemen
             </Typography>
           </Grid>
           <Grid item>

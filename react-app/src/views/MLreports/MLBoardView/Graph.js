@@ -30,8 +30,11 @@ export class Graph extends Component{
         //this.fetchCSVData = this.fetchCSVData.bind(this);
         this.handleRadioOnClick = this.handleRadioOnClick.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.updateHandler = this.updateHandler.bind(this);
         if (window.location.host.startsWith('localhost')) {
             this.baseURL = 'http://localhost:8080';
+        } else {
+            this.baseURL = 'https://macrovis.ue.r.appspot.com'; 
         }
     } 
 
